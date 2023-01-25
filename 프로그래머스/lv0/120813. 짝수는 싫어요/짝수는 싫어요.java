@@ -1,11 +1,14 @@
 import java.util.*;
+import java.util.stream.Stream;
 
 class Solution {
     public int[] solution(int a) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
         for (int i = 1; i <= a; i++) {
-            if (i%2 == 1) list.add(i);
+            if (i % 2 == 1) {
+                res.add(i);
+            }
         }
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        return res.stream().mapToInt(x -> x).toArray();
     }
 }
