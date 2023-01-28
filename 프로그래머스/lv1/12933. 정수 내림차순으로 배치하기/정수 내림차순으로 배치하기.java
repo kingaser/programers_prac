@@ -1,21 +1,13 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
 class Solution {
     public long solution(long n) {
-        List<Character> list = new ArrayList<>();
-        String tmp = "" + n;
-        for (char x : tmp.toCharArray()) {
-            list.add(x);
-        }
-        Collections.sort(list, Collections.reverseOrder());
-        String s = list.toString();
-        String ss = "";
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) ss += c;
-        }
+        String[] list = String.valueOf(n).split("");
+        Arrays.sort(list);
 
-        return Long.parseLong(ss);
+        StringBuilder sb = new StringBuilder();
+        for (String x : list) sb.append(x);
+
+        return Long.parseLong(sb.reverse().toString());
     }
 }
