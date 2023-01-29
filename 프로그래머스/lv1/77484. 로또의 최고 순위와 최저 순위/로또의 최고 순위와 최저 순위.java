@@ -8,7 +8,7 @@ class Solution {
                 if (a == b) win--;
             }
         }
-        answer[0] = win == 7 && fail == 6 ? win - fail : win == 7 ? 6 : win-fail;
+        answer[0] = (win == 7 && fail == 6) || win != 7 ? win - fail : 6;
         answer[1] = win == 7 ? 6 : win;
         
         return answer;
