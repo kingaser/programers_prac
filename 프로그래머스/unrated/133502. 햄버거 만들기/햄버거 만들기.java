@@ -4,21 +4,19 @@ class Solution {
     public int solution(int[] ingredient) {
         int answer = 0;
         
-        ArrayList<Integer> list = new ArrayList<>();
+        Stack<Integer> st = new Stack<>();
         
         for (int x : ingredient) {
-            list.add(x);
-            if (list.size() >= 4) {
-                if (list.get(list.size() - 4) == 1 &&
-                   list.get(list.size() - 3) == 2 &&
-                   list.get(list.size() - 2) == 3 &&
-                   list.get(list.size() - 1) == 1) {
-                    list.remove(list.size() - 4);
-                    list.remove(list.size() - 3);
-                    list.remove(list.size() - 2);
-                    list.remove(list.size() - 1);
-                    answer++;
+            st.push(x);
+            if (st.size() >= 4 &&
+               st.get(st.size() - 4) == 1 &&
+               st.get(st.size() - 3) == 2 &&
+               st.get(st.size() - 2) == 3 &&
+               st.get(st.size() - 1) == 1) {
+                for (int i = 0; i < 4; i++) {
+                    st.pop();
                 }
+                answer++;
             }
         }
         
