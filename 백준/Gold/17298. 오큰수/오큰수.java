@@ -1,14 +1,15 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 class Main {
     static int n;
     
     public String solution(int[] arr) {
         Stack<Integer> st = new Stack<>();
+        StringBuilder sb = new StringBuilder();
         
         for (int i = 0; i < n; i++) {
-            while (!st.empty() && arr[st.peek()] < arr[i]) {
+            while (!st.empty() && arr[i] > arr[st.peek()]) {
                 arr[st.pop()] = arr[i];
             }
             st.push(i);
@@ -18,7 +19,6 @@ class Main {
             arr[st.pop()] = -1;
         }
         
-        StringBuilder sb = new StringBuilder();
         for (int a : arr) {
             sb.append(a).append(" ");
         }
@@ -33,7 +33,6 @@ class Main {
         
         n = Integer.parseInt(br.readLine());
         int[] arr = new int[n];
-        
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
