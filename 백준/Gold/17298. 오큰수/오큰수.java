@@ -3,15 +3,15 @@ import java.io.*;
 
 class Main {
     static int n;
+    static Stack<Integer> st = new Stack<>();
+    static int[] arr;
     
-    public String solution(int[] arr) {
-        Stack<Integer> st = new Stack<>();
+    public String solution() {
         StringBuilder sb = new StringBuilder();
+
         
         for (int i = 0; i < n; i++) {
-            while (!st.empty() && arr[i] > arr[st.peek()]) {
-                arr[st.pop()] = arr[i];
-            }
+            popSearch(i);
             st.push(i);
         }
         
@@ -26,19 +26,25 @@ class Main {
         return sb.toString();
     }
     
+    private void popSearch(int i) {
+        while (!st.empty() && arr[st.peek()] < arr[i]) {
+            arr[st.pop()] = arr[i];
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Main T = new Main();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        
+
         n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+        arr = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-        
-        bw.write(T.solution(arr));
+
+        bw.write(T.solution());
         bw.flush();
         bw.close();
     }
