@@ -1,80 +1,89 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-class Main {
-    static int n;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public void solution(int[] arr, int[] arr2, int[] status) {
-        int pos = n;
-        if (comparing(pos, arr, status)) {
-            System.out.println(1);
-            return;
+        // 입력
+        int n = Integer.parseInt(br.readLine());
+
+        int[] A = new int[n];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++)
+            A[i] = Integer.parseInt(st.nextToken());
+
+        int[] B = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++)
+            B[i] = Integer.parseInt(st.nextToken());
+
+        int[] C = new int[n]; // A, B의 같은 위치 원소가 같을 때 1을 담아주는 배열
+        int sum = 0; // 같을 때 1, 다를 때 0
+
+        // 배열C 초기세팅
+        for (int i = 0; i < n; i++) {
+            if (A[i] == B[i]) {
+                C[i] = 1;
+                sum++;
+            }
         }
 
-        Arrays.sort(arr2);
+        // sorting
+        int temp;
+        if (sum != n) {
+            exit:
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = 0; j < n - 1 - i; j++) {
+                    // 오름차순 정렬
+                    if (A[j] > A[j + 1]) {
+                        // swap
+                        temp = A[j];
+                        A[j] = A[j + 1];
+                        A[j + 1] = temp;
 
-        int len = n;
-        for (int i = n - 1; i >= 0; i--) {
-            if (arr2[i] != status[i]) {
-                pos = i;
-                break;
-            }
-            for (int j = 0; j < len - 1; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-                    if (arr[j] == status[j] && arr[j + 1] == status[j + 1]) {
-                        if (comparing(pos, arr, status)) {
-                            System.out.println(1);
-                            return;
+                        // j와 j+1를 바꾸었으니 c와 sum을 업데이트!!
+                        if (A[j] == B[j]) {  // 0 -> 1 : sum++
+                            C[j] = 1;
+                            sum++;
+                        } else if (C[j] == 1) {  // 1 -> : sum--
+                            C[j] = 0;
+                            sum--;
+                        } else {    // 0 -> 0 : sum 그대로
+                            C[j] = 0;
+                        }
+
+                        // j+1 작업
+                        if (A[j + 1] == B[j + 1]) {
+                            C[j + 1] = 1;
+                            sum++;
+                        } else if (C[j + 1] == 1) {
+                            C[j + 1] = 0;
+                            sum--;
+                        } else {
+                            C[j + 1] = 0;
                         }
                     }
-                }
-            }
-            len--;
-        }
 
-        for (int i = 0; i < pos; i++) {
-            if (arr[i] > arr[i + 1]) {
-                int tmp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = tmp;
-                if (comparing(pos, arr, status)) {
-                    System.out.println(1);
-                    return;
+                    // 배열이 같을 때(sum==n)일 때 탈출해야함. 여기서 더 swap 해버리면 C가 달라저버럼.
+                    // 이 떄문에 탈출을 위해 C배열 뿐만 아니라 sum이 필요함!
+                    if (sum == n)
+                        break exit;
                 }
             }
         }
-
-        System.out.println(0);
-    }
-
-    private boolean comparing(int pos, int[] arr, int[] status) {
-        for (int i = 0; i < pos; i++) {
-            if (arr[i] != status[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void main(String[] args) {
-        Main T = new Main();
-        Scanner kb = new Scanner(System.in);
-
-        n = kb.nextInt();
-        int[] arr = new int[n];
-        int[] arr2 = new int[n];
-        int[] status = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            arr[i] = arr2[i] = kb.nextInt();
+        // C에 0이 있는지 확인(A와 B의 원소가 다른게 있는지)
+        boolean flag = true;
+        for (int e : C) {
+            if (e == 0)
+                flag = false;
         }
 
-        for (int i = 0; i < n; i++) {
-            status[i] = kb.nextInt();
-        }
-
-        T.solution(arr, arr2, status);
+        if (flag)   // 다른게 없다면 1
+            System.out.println(1);
+        else    // 다른게 하나라도 있으면 0
+            System.out.println(0);
     }
 }
