@@ -50,12 +50,12 @@ class Main {
     }
 
     private boolean comparing(int pos, int[] arr, int[] status) {
-        if (Arrays.equals(arr, status)) {
-            return true;
-        } else {
-            return false;
+        for (int i = 0; i < pos; i++) {
+            if (arr[i] != status[i]) {
+                return false;
+            }
         }
-
+        return true;
     }
 
     public static void main(String[] args) {
