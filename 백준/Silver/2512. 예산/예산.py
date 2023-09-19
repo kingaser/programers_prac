@@ -10,7 +10,7 @@ def solution(m, arr):
                 tot += mid
             else:
                 tot += i
-        if tot <= m:
+        if m >= tot:
             st = mid + 1
         else:
             ed = mid - 1
@@ -23,4 +23,3 @@ if __name__ == "__main__":
     m = int(input())
 
     print(solution(m, arr))
-
