@@ -1,29 +1,22 @@
-import java.util.Scanner;
+import java.io.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int N = scanner.nextInt();
-        int[] A = new int[N];
+        int n = Integer.parseInt(br.readLine());
+        String[] arr = br.readLine().split(" ");
 
-        for (int i = 0; i < N; i++) {
-            A[i] = scanner.nextInt();
+        long res = 0;
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            res += sum * Integer.parseInt(arr[i]);
+            sum += Integer.parseInt(arr[i]);
         }
 
-        long result = calculateProductSum(N, A);
-        System.out.println(result);
-    }
-
-    private static long calculateProductSum(int N, int[] A) {
-        long totalSum = 0;
-        long prefixSum = 0;
-
-        for (int i = 0; i < N; i++) {
-            totalSum += prefixSum * A[i];
-            prefixSum += A[i];
-        }
-
-        return totalSum;
+        bw.write(res + "");
+        bw.flush();
+        bw.close();
     }
 }
