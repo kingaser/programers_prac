@@ -1,44 +1,30 @@
 import java.io.*;
-import java.util.Arrays;
+import java.util.HashMap;
 
 class Main {
     static int n;
     static String[] words;
-
     private static void solution() {
-        int cnt = 1;
-        int[] ch = new int[n];
+        HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            if (ch[i] == 0) ch[i] = i + 1;
-            for (int j = 0; j < n; j++) {
-                if (i == j) continue;
-                int len = words[i].length();
-
-                if (ch[j] == 0) {
-                    if (len == words[j].length()) {
-                        if (!words[i].equals(words[j])) {
-                            for (int k = 0; k < len; k++) {
-                                words[j] = words[j].substring(len - 1) + words[j].substring(0, len - 1);
-                                if (words[i].equals(words[j])) {
-                                    ch[j] = i + 1;
-                                    break;
-                                }
-                            }
-                        } else {
-                            ch[j] = i + 1;
-                        }
+            String s = words[i];
+            boolean flag = false;
+            if (map.containsKey(s)) {
+                flag = true;
+            } else {
+                int len = s.length();
+                for (int j = 0; j < len; j++) {
+                    s = s.substring(len - 1) + s.substring(0, len - 1);
+                    if (map.containsKey(s)) {
+                        flag = true;
+                        break;
                     }
                 }
             }
+            if (!flag) map.put(words[i], 0);
         }
 
-        Arrays.sort(ch);
-
-        for (int i = 1; i < n; i++) {
-            if (ch[i] != ch[i - 1]) cnt++;
-        }
-
-        System.out.println(cnt);
+        System.out.println(map.size());
     }
 
     public static void main(String[] args) {
@@ -49,12 +35,9 @@ class Main {
             for (int i = 0; i < n; i++) {
                 words[i] = br.readLine();
             }
-
             solution();
         } catch (IOException e) {
             System.out.println("입출력 오류");
-        } catch (Exception e) {
-            System.out.println("오류 발생");
         }
     }
 }
